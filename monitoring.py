@@ -121,6 +121,9 @@ while 1:
         if readAttributes:
             readAttributes = False
             listAttributesCollection = createAttributeCollection(new_state_raw)
+            # apply here the FEATURE SELECTION by removing the attributes you want to remove in the computation of the new state
+            # if 'mdns' in listAttributesCollection:
+            #     listAttributesCollection.remove('mdns')
         for indicators in learning_indicators.find({}):
             actual_problem = indicators['_id']
             curr_raw_state = []
