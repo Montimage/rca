@@ -80,7 +80,7 @@ def normalized_a(a):
 if __name__ == "__main__":
 	# Setup MongoDB Collections
 	db = pymongo.MongoClient("mongodb://localhost:27017")
-	logs = db["log"]
+	logs = db["log"]["input"]
 	db_d = "mmt-rca"
 	db_dest = db[db_d]
 	known_state = db_dest["data_knowledge"]

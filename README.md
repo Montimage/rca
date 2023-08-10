@@ -22,7 +22,7 @@ In this repo I provide also a Python script called [parse_csv.py](https://github
 This script can also apply ***data augmentation*** in case the number of examples per problems is too low: the more rows describing each problem you have, the more accurate is the tool!
 In [output.csv](https://github.com/Montimage/rca/blob/master/data/output.csv) you can find an example of output of this script. In [output_extra.csv](https://github.com/Montimage/rca/blob/master/data/output_extra.csv) you will find an example of output of this script at which it was applied data augmentation.
 
-Right now, you should have your csv or your JSON file; then, it should be imported to a MongoDB collection, included inside the *log* database.
+Right now, you should have your csv or your JSON file; then, it should be imported to a MongoDB collection, included inside the *log* database -> *input* collection.
 
 It's time to focus on the [learning.py](https://github.com/Montimage/rca/blob/master/learning.py) script. In the setup phase of this script, it will try to connect to the MongoDB collection where you previously uploaded your incidents.
 For each problem found in the collection, the script will separate them accordingly to their problemID (or output as is called in output.csv).
