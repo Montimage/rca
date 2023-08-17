@@ -13,6 +13,7 @@ The workflow of the tool is composed of two stages:
 
 ## Code
 
+### Input data
 To use this tool, you need to follow some steps.
 First of all, you need to collect the data that describe your problems. It could be of any shape, form and extension.
 Secondly, you need to parse the data into a csv (in that case, all the columns will be the features) or a JSON (the keys will be the features), so that each incident is described by all the columns.
@@ -24,10 +25,11 @@ In [output.csv](https://github.com/Montimage/rca/blob/master/data/output.csv) yo
 
 Right now, you should have your csv or your JSON file; then, it should be imported to a MongoDB collection, included inside the *log* database -> *input* collection.
 
+### Learning phase
 It's time to focus on the [learning.py](https://github.com/Montimage/rca/blob/master/learning.py) script. In the setup phase of this script, it will try to connect to the MongoDB collection where you previously uploaded your incidents.
 For each problem found in the collection, the script will separate them accordingly to their problemID (or output as is called in output.csv).
 Then, the script will create two collections inside the *mmt-rca* database, one called *data_knowledge* which will include the mean of the states of the incidents, and another called _learning_indicators_ that instead includes the parameters to compute the Gaussian distribution for the new problems.
-
+### Monitoring phase
 The [monitoring.py](https://github.com/Montimage/rca/blob/master/monitoring.py) script has the purpose of compare new problems with the states included in the *data_knowledge* collection. It will get all the new problems from the *raw_data_real_time* collection, where you should upload your **test** problems (same format as the ones used inside the learning phase).
 It will compute a Gaussian distribution by using the parameters of every element included inside the *learning_indicators* collection; therefore, it will measure the similarity between the just computed distribution with each of the *data_knowledge* state, and outputs, inside the *report* collection, the most similar problem (indicated as *KnownIncidentID*), the *Similarity Score* and the *Proof*.
 Inside the script you will also find some lines that will allow to apply **feature selection** operation, in order to remove those irrelevant attributes (I suggest you to think about the features to remove and to test a lot! :) )
