@@ -85,18 +85,14 @@ if __name__ == "__main__":
 	db_dest = db[db_d]
 	known_state = db_dest["data_knowledge"]
 	learning_indicators = db_dest["learning_indicators"]
-	new_state = db_dest["data_real_time"]
-	report = db_dest['report']
-
-	minOutput = logs.find_one({}, sort=[('output', 1)])['output']
-	maxOutput = logs.find_one({}, sort=[('output', -1)])['output']
-
+	outputLabel = 'Output'
+	minOutput = logs.find_one({}, sort=[(outputLabel, 1)])[outputLabel]
+	maxOutput = logs.find_one({}, sort=[(outputLabel, -1)])[outputLabel]
 	listAttributesCollection = createAttributeCollection(logs)
 	for problemIndex in range(int(minOutput), int(maxOutput+1)):
 		listAttributes = [[] for _ in range(len(listAttributesCollection))]
-
 		# Inserting Log Features into arrays
-		for idx, entry in enumerate(logs.find({"output": problemIndex})):
+		for idx, entry in enumerate(logs.find({outputLabel: problemIndex})):
 			for i, attribute in enumerate(listAttributesCollection):
 				if attribute in entry:
 					value = entry[attribute]

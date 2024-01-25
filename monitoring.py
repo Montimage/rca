@@ -102,10 +102,12 @@ while 1:
     start_time = time.time()
     db_d = "mmt-rca"
     db_dest = mongoClient[db_d]
-    known_state = db_dest["data_knowledge"]
-    learning_indicators = db_dest["learning_indicators"]  # indicators to normalised monitoring data in real time
-    new_state_raw = db_dest["raw_data_real_time"]  # raw data before being normalised
-    report = db_dest["report"]
+    db_op = 'mmt-data'
+    db_operator = mongoClient[db_op] # is needed to visualize the graph of the problems
+    known_state = db_dest["data_knowledge"] # collection that contains state properties
+    learning_indicators = db_dest["learning_indicators"]  # indicators to normalise monitoring data in real time
+    new_state_raw = db_dest["test_data"]  # test data to analyse
+    report = db_operator["report"]  # results will be put in this collection to be shown in MMT-OPERATOR
     readAttributes = True
     listAttributesCollection = []
     
@@ -146,7 +148,7 @@ while 1:
                     for attribute in  listAttributesCollection:
                         normalised_known_state.append(float(a_known_state[attribute]))
                     sim_score = abs(cosine_similarity(curr_normalised_state, normalised_known_state))
-                    # if a similirarity score is higher for a particoular indicator, this score is memorized and the
+                    # if a similirarity score is higher for a particular indicator, this score is memorized and the
                     # corresponding id problem is taken in account
                     if (sim_score > max_sim_score): #lt if choosing distances, ht otherwise
                         max_sim_score = sim_score
@@ -157,7 +159,7 @@ while 1:
         report.insert_one(new_report)
         new_state_raw.delete_one({"_id": raw_state["_id"]})
         if known_incident_id != "0":
-            print("An incident has been detected, is of type " + known_incident_id)
+            print("An incident has been detected. It is of type " + known_incident_id)
         # print(new_report)
     end_time = time.time()
     execution_time = end_time - start_time

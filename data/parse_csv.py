@@ -92,9 +92,10 @@ else:
 
         # print(max_value)
 
-        # Generazione delle righe con valori perturbati
-        for _ in range(100):  # Numero di righe generate
+        # Generation of lines with perturbated values
+        for _ in range(100):  # Number of lines to be generated
             perturbed_values = {
+                # add any of the attributes you want to augment
                 'output': class_value,
                 'rdp': perturb_value(np.random.uniform(low=min_value['rdp'], high=max_value['rdp']), min_value['rdp'], max_value['rdp'], 'rdp'),
                 # 'icmp': perturb_value(np.random.uniform(low=min_value['icmp'], high=max_value['icmp']), min_value['icmp'], max_value['icmp'],'icmp'),
